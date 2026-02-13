@@ -102,9 +102,40 @@ button{
 
 #contador{
     display:none;
-    margin-top:20px;
-    font-size:1rem;
+    margin-top:25px;
 }
+
+.grid-tiempo{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:12px;
+    margin-top:15px;
+}
+
+.card{
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius:15px;
+    padding:15px 10px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    transition:transform 0.3s ease;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card span{
+    font-size:1.4rem;
+    font-weight:bold;
+    display:block;
+}
+
+.card small{
+    font-size:0.8rem;
+    opacity:0.8;
+}
+
 </style>
 </head>
 
@@ -121,6 +152,7 @@ button{
         <div class="envelope" id="envelope">
             <div class="flap"></div>
             <div class="carta">
+                <img src="cinnamoroll.gif" alt="cinnamon gift" style="width:170px;">
                 <h3>Para Ely ❤️</h3>
                 <p>
                 Desde aquel 4 de diciembre de 2021,
@@ -146,9 +178,17 @@ button{
     </div>
 
     <div id="contador">
-        <h3>Llevamos juntos:</h3>
-        <p id="tiempo"></p>
+    <h3>Llevamos juntos ❤️</h3>
+    <div class="grid-tiempo">
+        <div class="card"><span id="años">0</span><small>Años</small></div>
+        <div class="card"><span id="meses">0</span><small>Meses</small></div>
+        <div class="card"><span id="dias">0</span><small>Días</small></div>
+        <div class="card"><span id="horas">0</span><small>Horas</small></div>
+        <div class="card"><span id="minutos">0</span><small>Min</small></div>
+        <div class="card"><span id="segundos">0</span><small>Seg</small></div>
     </div>
+</div>
+
 
 </div>
 
@@ -232,9 +272,13 @@ function actualizarContador(){
     }
     if(meses<0){meses+=12; años--;}
 
-    tiempoTexto.innerHTML =
-    `${años} años, ${meses} meses, ${dias} días,
-     ${horas} horas, ${minutos} minutos y ${segundos} segundos ❤️`;
+    document.getElementById("años").innerText = años;
+document.getElementById("meses").innerText = meses;
+document.getElementById("dias").innerText = dias;
+document.getElementById("horas").innerText = horas;
+document.getElementById("minutos").innerText = minutos;
+document.getElementById("segundos").innerText = segundos;
+
 }
 
 setInterval(actualizarContador,1000);
