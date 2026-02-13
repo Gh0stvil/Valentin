@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestro Amor ❤️</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background: linear-gradient(135deg,#ff4e8a,#ff9a9e,#fad0c4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+    text-align:center;
+    color:white;
+}
+
+.container{
+    width:90%;
+    max-width:400px;
+}
+
+h1{
+    font-size:2rem;
+}
+
+button{
+    padding:15px;
+    width:100%;
+    margin-top:15px;
+    border:none;
+    border-radius:50px;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#yes{
+    background:white;
+    color:#e91e63;
+    font-weight:bold;
+}
+
+#no{
+    background:#333;
+    color:white;
+}
+
+#sobre{
+    display:none;
+    position:relative;
+    width:300px;
+    height:200px;
+    margin:30px auto;
+}
+
+.envelope{
+    width:100%;
+    height:100%;
+    background:#fff;
+    position:relative;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.flap{
+    width:100%;
+    height:100%;
+    background:#e91e63;
+    position:absolute;
+    top:0;
+    left:0;
+    transform-origin:top;
+    transition:transform 1.5s ease;
+}
+
+.carta{
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:100%;
+    background:white;
+    color:#e91e63;
+    padding:20px;
+    box-sizing:border-box;
+    transition:top 1.5s ease;
+    overflow:auto;
+}
+
+#abierto .flap{
+    transform:rotateX(180deg);
+}
+
+#abierto .carta{
+    top:0;
+}
+
+#contador{
+    display:none;
+    margin-top:20px;
+    font-size:1rem;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 id="pregunta">¿Quieres ser mi San Valentín? 💖</h1>
+
+    <button id="yes">Sí 💘</button>
+    <button id="no">No 😢</button>
+
+    <div id="sobre">
+        <div class="envelope" id="envelope">
+            <div class="flap"></div>
+            <div class="carta">
+                <h3>Para ti ❤️</h3>
+                <p>
+                Desde aquel 4 de diciembre de 2021,
+                mi vida cambió para siempre.
+                <br><br>
+                Gracias por cada momento,
+                por cada sonrisa,
+                por cada abrazo.
+                <br><br>
+                Hoy quiero preguntarte algo especial…
+                ¿Me harías el honor de ser mi San Valentín? 💌
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contador">
+        <h3>Llevamos juntos:</h3>
+        <p id="tiempo"></p>
+    </div>
+
+</div>
+
+<!-- 🔥 COLOCA AQUÍ TU CANCIÓN -->
+<audio id="musica" loop>
+    <source src="WinterBearbyV.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const sobre = document.getElementById("sobre");
+const envelope = document.getElementById("envelope");
+const contador = document.getElementById("contador");
+const tiempoTexto = document.getElementById("tiempo");
+const pregunta = document.getElementById("pregunta");
+const musica = document.getElementById("musica");
+
+let frases = [
+"¿Segura? 😏",
+"Piénsalo mejor ❤️",
+"No puedes decir que no 😌",
+"Intento fallido 😂",
+"Yo sé que dirás que sí 🥺"
+];
+
+let index = 0;
+let escalaNo = 1;
+let escalaSi = 1;
+
+noBtn.addEventListener("click",()=>{
+    noBtn.innerText = frases[index % frases.length];
+    index++;
+
+    escalaNo *= 0.85;
+    escalaSi *= 1.1;
+
+    noBtn.style.transform = `scale(${escalaNo})`;
+    yesBtn.style.transform = `scale(${escalaSi})`;
+});
+
+yesBtn.addEventListener("click",()=>{
+    pregunta.style.display="none";
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+
+    sobre.style.display="block";
+
+    musica.play();
+
+    setTimeout(()=>{
+        envelope.id="abierto";
+    },500);
+
+    setTimeout(()=>{
+        contador.style.display="block";
+    },2500);
+});
+
+
+// 📅 Fecha exacta: 04 diciembre 2021
+const fechaInicio = new Date("2021-12-04T00:00:00");
+
+function actualizarContador(){
+    const ahora = new Date();
+
+    let años = ahora.getFullYear() - fechaInicio.getFullYear();
+    let meses = ahora.getMonth() - fechaInicio.getMonth();
+    let dias = ahora.getDate() - fechaInicio.getDate();
+    let horas = ahora.getHours() - fechaInicio.getHours();
+    let minutos = ahora.getMinutes() - fechaInicio.getMinutes();
+    let segundos = ahora.getSeconds() - fechaInicio.getSeconds();
+
+    if(segundos<0){segundos+=60; minutos--;}
+    if(minutos<0){minutos+=60; horas--;}
+    if(horas<0){horas+=24; dias--;}
+    if(dias<0){
+        const ultimoMes = new Date(ahora.getFullYear(), ahora.getMonth(),0).getDate();
+        dias+=ultimoMes; meses--;
+    }
+    if(meses<0){meses+=12; años--;}
+
+    tiempoTexto.innerHTML =
+    `${años} años, ${meses} meses, ${dias} días,
+     ${horas} horas, ${minutos} minutos y ${segundos} segundos ❤️`;
+}
+
+setInterval(actualizarContador,1000);
+
+</script>
+
+</body>
+</html>
